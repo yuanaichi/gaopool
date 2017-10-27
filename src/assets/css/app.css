@@ -1,9 +1,11 @@
 html {
   font-size: 24px;
+  font-family: PingFangSC-Regular;
 }
 
 body {
   margin: 0 auto;
+  color: #323c47;
 }
 
 .container, .page-container {
@@ -73,10 +75,11 @@ body {
 .current-mining-account input {
   height: 3rem;
   font-size: 1.2rem;
-  padding: 1.5rem;
+  padding: 1.5rem 0.8rem;
   box-shadow:0 0 150px 0 rgba(67,73,106, 0.2);
   border: none;
   border-radius: 8px;
+  color:#a4a7b6;
 }
 
 .current-mining-account .el-input__icon {
@@ -118,6 +121,7 @@ body {
 
 .account-balance .title {
   font-weight: bold;
+  color:#6a6a77;
 }
 
 .mining-info-wrapper .mining-info {
@@ -159,6 +163,7 @@ body {
 .mining-info .mining-title {
   line-height: 2rem;
   font-size: 1.1rem;
+  color: #525868;
 }
 
 .mining-info table.data-list {
@@ -166,8 +171,13 @@ body {
 }
 
 .mining-info .data-list td {
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #f5f5f5;
   line-height: 3rem;
+  color:#6a6a77;
+}
+
+.mining-info .data-list td.ename {
+  font-size: 0.78rem;
 }
 
 .dot {
@@ -175,12 +185,12 @@ body {
   left: 0px;
   line-height: 0;
   position: relative;
-  top: -2px;
+  top: -0.1rem;
   width: 0px;
   height: 0px;
-  border-radius: 20px;
+  border-radius: 0.9rem;
   background:#f00;
-  border: 6px solid #7ed321;
+  border: 0.25rem solid #7ed321;
   display: inline-block;
   margin-right: 0.5rem;
 }

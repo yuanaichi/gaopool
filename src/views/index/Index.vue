@@ -1,6 +1,25 @@
 <template>
   <div id="app">
     <div class="container">
+      <div class="bte-cost" v-if="showCost">
+        <el-row>
+          <el-col :span="6" class="cost-left">
+            <!--span class="epoch-name">Epoch:</span> <span class="epoch-number">123</span-->
+            &nbsp;
+          </el-col>
+          <el-col :span="12" class="cost-title">
+            挖矿成本图
+          </el-col>
+          <el-col :span="6" class="cost-right">
+            <!--router-link :to="{ name: 'detail'}"  class="el-button pool-info-link">矿池详情</router-link-->
+            &nbsp;
+          </el-col>
+        </el-row>
+        <div class="cost-chart-container">
+          <div id="cost-chart"></div>
+        </div>
+      </div><!-- //end bte-cost -->
+
       <div class="account-mining-info">
         <div class="current-mining-account">
           <el-row>
@@ -19,7 +38,7 @@
           </el-row>
         </div> <!-- // mining account -->
 
-        <div class="mining-info-wrapper">
+        <div class="mining-info-wrapper" v-loading.body="miningInfoLoading">
           <div class="account-balance">
             <el-row>
               <el-col :span="12">
@@ -60,18 +79,18 @@
 
               <table class="data-list" width="100%">
                 <tr>
-                  <td width="33%">
+                  <td width="33%" class="ename">
                     <i class="dot"></i>Partial Attempt</td>
-                  <td width="33%">每块押注</td>
+                  <td width="33%">每块投入</td>
                   <td width="33%">{{miningInfo.partialAttempt}} ETH</td>
                 </tr>
                 <tr>
-                  <td><i class="dot yellow-border"></i> Left Bet</td>
-                  <td>剩余押注</td>
+                  <td class="ename"><i class="dot yellow-border"></i>Left Bet</td>
+                  <td>剩余投入</td>
                   <td>{{miningInfo.leftEther}} ETH</td>
                 </tr>
                 <tr>
-                  <td><i class="dot blue-border"></i> Proift</td>
+                  <td class="ename"><i class="dot blue-border"></i> Proift</td>
                   <td>总产出</td>
                   <td>{{miningInfo.profit}} BTE</td>
                 </tr>
@@ -118,6 +137,7 @@ export default {
   },
   data () {
     return {
+      showCost: false,
       ethLogo: ethLogo,
       bteLogo: bteLogo,
       currentAccount: {
@@ -136,7 +156,8 @@ export default {
         leftEther: 0,
         totalEther: 0,
         partialAttempt: 0
-      }
+      },
+      miningInfoLoading: false
     }
   },
   computed: {
@@ -157,8 +178,8 @@ export default {
       }
     }, 1000)
 
-    //this.renderCostChart()
-    //this.init()
+    this.renderCostChart()
+    this.init()
   },
   destroyed () {
   },
@@ -301,15 +322,22 @@ export default {
       let self = this;
       if (!window.web3.currentProvider.isDefaultProvider) {
         //has inject web3
+        console.log("has inject web3");
         this.currentAccount.address = window.web3.eth.coinbase;
         //this.canMine = true;
       } else {
 
       }
+      let storageAccount = window.STORAGE.getItem('currentAccount')
+
+      if (!this.currentAccount.address && storageAccount) {
+        this.currentAccount.address = storageAccount;
+      }
 
       this.loadAccountInfo()
     },
     loadAccountInfo () {
+      this.miningInfoLoading = true;
       let bteInstance = this.getBteInstance();
       let defaultPoolInstance = this.getDefaultPoolInstance();
       let self = this
@@ -317,6 +345,8 @@ export default {
       if (!web3.isAddress(this.currentAccount.address)) {
         return
       }
+
+      window.STORAGE.setItem('currentAccount', this.currentAccount.address);
 
       bteInstance.balanceOf.call(this.currentAccount.address, (err, bteBalance) => {
         self.currentAccount.bter = self.toBte(bteBalance);
@@ -329,9 +359,11 @@ export default {
       defaultPoolInstance.find_contribution.call(this.currentAccount.address, (err, contribution) => {
         let [a, partial_attempt, total_contribution_for_epoch, total_contribution_for_epoch_remaining, balance, f, g] = contribution;
         console.log(a, partial_attempt, total_contribution_for_epoch, total_contribution_for_epoch_remaining, balance, f, g);
+        //ep.actual_attempt
         self.miningInfo.partialAttempt = web3.fromWei(partial_attempt, 'ether').toFixed(6);
         self.miningInfo.leftEther = web3.fromWei(total_contribution_for_epoch_remaining, 'ether').toFixed(6);
         self.miningInfo.profit = self.toBte(balance);
+        this.miningInfoLoading = false;
       });
     },
     toBte(value) {
