@@ -337,7 +337,6 @@ export default {
       this.loadAccountInfo()
     },
     loadAccountInfo () {
-      this.miningInfoLoading = true;
       let bteInstance = this.getBteInstance();
       let defaultPoolInstance = this.getDefaultPoolInstance();
       let self = this
@@ -345,6 +344,8 @@ export default {
       if (!web3.isAddress(this.currentAccount.address)) {
         return
       }
+
+      this.miningInfoLoading = true;
 
       window.STORAGE.setItem('currentAccount', this.currentAccount.address);
 
