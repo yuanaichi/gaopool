@@ -82,17 +82,17 @@
                   <td width="33%" class="ename">
                     <i class="dot"></i>Partial Attempt</td>
                   <td width="33%">每块投入</td>
-                  <td width="33%">{{miningInfo.partialAttempt}} ETH</td>
+                  <td width="33%" class="value">{{miningInfo.partialAttempt}} ETH</td>
                 </tr>
                 <tr>
                   <td class="ename"><i class="dot yellow-border"></i>Left Bet</td>
                   <td>剩余投入</td>
-                  <td>{{miningInfo.leftEther}} ETH</td>
+                  <td class="value">{{miningInfo.leftEther}} ETH</td>
                 </tr>
                 <tr>
                   <td class="ename"><i class="dot blue-border"></i> Proift</td>
                   <td>总产出</td>
-                  <td>{{miningInfo.profit}} BTE</td>
+                  <td class="profit-value value">{{miningInfo.profit}} BTE</td>
                 </tr>
               </table>
             </div>

@@ -179,6 +179,12 @@ body {
 .mining-info .data-list td.ename {
   font-size: 0.78rem;
 }
+.mining-info .data-list td.value {
+  text-align: right;
+}
+.mining-info .data-list td.profit-value {
+  color:#f96d74;
+}
 
 .dot {
   font-size: 0;
