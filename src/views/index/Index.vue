@@ -368,7 +368,7 @@ export default {
       });
     },
     toBte(value) {
-      let v = parseFloat(value.dividedBy(100000000)).toFixed(5);
+      let v = parseFloat(value.dividedBy(100000000)).toFixed(6);
       return v;
     },
     searchAccount() {
