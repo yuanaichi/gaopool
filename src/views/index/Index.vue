@@ -137,7 +137,7 @@ export default {
   },
   data () {
     return {
-      showCost: true,
+      showCost: false,
       ethLogo: ethLogo,
       bteLogo: bteLogo,
       currentAccount: {
