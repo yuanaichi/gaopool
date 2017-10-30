@@ -137,7 +137,7 @@ export default {
   },
   data () {
     return {
-      showCost: false,
+      showCost: true,
       ethLogo: ethLogo,
       bteLogo: bteLogo,
       currentAccount: {
@@ -306,7 +306,7 @@ export default {
           }]
         };
         let self = this
-        this.$http.get('http://127.0.0.1:8010/api/bte-costs').then(response => {
+        this.$http.get('http://47.52.28.108/api/bte-costs').then(response => {
             let data = response.data.data;
 
             for(let d of data.slice(0, 9).reverse()) {
